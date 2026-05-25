@@ -14,12 +14,14 @@ export const fetchUsers = async (req: Request, res: Response) => {
 
 export const createUserHandler = async (req: Request, res: Response) => {
   try {
-    // Optionally hash password here if needed
     const user = await createSystemUser(req.body);
     return res.status(201).json({ success: true, data: user });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Create user error:', error);
-    return res.status(500).json({ error: ERROR_MESSAGES.INTERNAL_SERVER_ERROR });
+    if (error?.code === 'P2002') {
+      return res.status(400).json({ error: 'User ID already exists. Please choose a different one.' });
+    }
+    return res.status(500).json({ error: ERROR_MESSAGES.INTERNAL_SERVER_ERROR, details: error.message });
   }
 };
 
@@ -30,9 +32,12 @@ export const updateUserHandler = async (req: Request, res: Response) => {
     
     const user = await updateSystemUser(id, req.body);
     return res.status(200).json({ success: true, data: user });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Update user error:', error);
-    return res.status(500).json({ error: ERROR_MESSAGES.INTERNAL_SERVER_ERROR });
+    if (error?.code === 'P2002') {
+      return res.status(400).json({ error: 'User ID already exists. Please choose a different one.' });
+    }
+    return res.status(500).json({ error: ERROR_MESSAGES.INTERNAL_SERVER_ERROR, details: error.message });
   }
 };
 

@@ -30,6 +30,9 @@ app.use(ROUTE_PREFIXES.SYSTEM_USERS, systemUsersRoutes);
 app.use(ROUTE_PREFIXES.VISITS, visitRoutes);
 app.use(ROUTE_PREFIXES.DATA, dataRoutes);
 
+app.get("/", (req, res) => {
+  res.send("Welcome to AT Jwellers Gate Pass Backend API");
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
