@@ -1,0 +1,2 @@
+@server i want you to analyze the @server\Structure.md and take this as a reference for my backend folder architecture and set up the folder accrodingly for now do not include the files just folder structure is enough also i want you to set up (prisma orm) in this folder structure.
+​

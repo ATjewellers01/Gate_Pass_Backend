@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          Int      @id @default(autoincrement())
+  userName    String   @map("user_name")
+  userId      String   @unique @map("user_id") // Used for login username
+  phone       String?
+  password    String
+  role        String?
+  pageAccess  String?  @map("page_access")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("users")
+}
+
+model Visit {
+  id                  Int       @id @default(autoincrement())
+  serialNo            String?   @unique @map("serial_no")
+  visitorName         String    @map("visitor_name")
+  mobileNumber        String    @map("mobile_number")
+  email               String?
+  visitorAddress      String?   @map("visitor_address")
+  purposeOfVisit      String    @map("purpose_of_visit")
+  personToMeet        String    @map("person_to_meet")
+  personToMeetContact String?   @map("person_to_meet_contact")
+  visitorPhoto        String?   @db.Text @map("visitor_photo") // Base64
+  
+  timeOfEntry         DateTime? @map("time_of_entry")
+  visitorOutTime      DateTime? @map("visitor_out_time")
+  
+  approvalStatus      String    @default("pending") @map("approval_status") // pending, approved, rejected
+  approvedBy          String?   @map("approved_by")
+  approvedAt          DateTime? @map("approved_at")
+  
+  status              String    @default("IN") // IN, OUT
+  gatePassClosed      Boolean   @default(false) @map("gate_pass_closed")
+  
+  createdAt           DateTime  @default(now()) @map("created_at")
+  updatedAt           DateTime  @updatedAt @map("updated_at")
+
+  @@map("visits")
+}
+
+model Data {
+  id          Int      @id @default(autoincrement())
+  personName  String   @map("person_name")
+  phoneNumber String   @map("phone_number")
+  designation String?
+  status      String   @default("active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("data")
+}

@@ -1,0 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const visit_controller_1 = require("./visit.controller");
+const validate_middleware_1 = require("../../middlewares/validate.middleware");
+const visit_validator_1 = require("./visit.validator");
+const router = (0, express_1.Router)();
+router.post('/', (0, validate_middleware_1.validate)(visit_validator_1.createVisitSchema), visit_controller_1.submitVisitRequest);
+router.get('/', visit_controller_1.fetchAllVisits);
+router.patch('/:id/approve', (0, validate_middleware_1.validate)(visit_validator_1.updateVisitSchema), visit_controller_1.approveVisitStatus);
+router.patch('/:id/close', (0, validate_middleware_1.validate)(visit_validator_1.closeGatePassSchema), visit_controller_1.closeVisitGatePass);
+exports.default = router;
