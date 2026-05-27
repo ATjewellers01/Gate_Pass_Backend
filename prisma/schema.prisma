@@ -15,8 +15,7 @@ datasource db {
 model User {
   id          Int      @id @default(autoincrement())
   userName    String   @map("user_name")
-  userId      String   @unique @map("user_id") // Used for login username
-  phone       String?
+  phone       String   @unique
   password    String
   role        String?
   pageAccess  String?  @map("page_access")

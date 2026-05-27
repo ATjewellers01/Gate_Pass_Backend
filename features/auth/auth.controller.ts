@@ -4,9 +4,9 @@ import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '../../utils/constants';
 
 export const login = async (req: Request, res: Response) => {
   try {
-    const { userId, password } = req.body;
+    const { phone, password } = req.body;
     
-    const user = await loginUser(userId, password);
+    const user = await loginUser(phone, password);
     
     if (!user) {
       return res.status(401).json({ error: ERROR_MESSAGES.INVALID_CREDENTIALS });

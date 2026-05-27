@@ -23,9 +23,8 @@ export const createPerson = async (data: any) => {
   const user = await prisma.user.create({
     data: {
       userName: data.personToMeet,
-      userId: userIdStr,
       password: data.password || "password123", // default password
-      phone: data.phone || "",
+      phone: data.phone || `000000000${Math.floor(Math.random() * 1000)}`, // phone must be unique and present
       role: "Staff",
       pageAccess: "ApprovelPage"
     }
