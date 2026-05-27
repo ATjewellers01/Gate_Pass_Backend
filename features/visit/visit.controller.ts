@@ -106,8 +106,7 @@ export const approveVisitStatus = async (req: Request, res: Response) => {
               { type: 'TEXT', text: String(updated.personToMeet || 'N/A') },
               { type: 'TEXT', text: String(updated.purposeOfVisit || 'N/A') },
               { type: 'TEXT', text: timeStr },
-              { type: 'TEXT', text: displayStatus },
-              { type: 'TEXT', text: visitorUpdateLink } // Dynamic Update link
+              { type: 'TEXT', text: displayStatus }
             ]
           }
         ]
@@ -130,8 +129,7 @@ export const approveVisitStatus = async (req: Request, res: Response) => {
                 { type: 'TEXT', text: String(updated.personToMeet || 'N/A') },
                 { type: 'TEXT', text: String(updated.purposeOfVisit || 'N/A') },
                 { type: 'TEXT', text: updated.timeOfEntry ? new Date(updated.timeOfEntry).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) },
-                { type: 'TEXT', text: 'Approved' },
-                { type: 'TEXT', text: guardCloseGatePassLink }
+                { type: 'TEXT', text: 'Approved' }
               ]
             }
           ]
