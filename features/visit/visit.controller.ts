@@ -6,7 +6,7 @@ import { sendWhatsAppTemplate } from '../../utils/whatsapp.service';
 export const submitVisitRequest = async (req: Request, res: Response) => {
   try {
     const visit = await createVisit(req.body);
-    const approvalLink = process.env.FRONTEND_URL || 'http://localhost:5173';
+    const approvalLink = 'https://gate-pass-frontend-theta.vercel.app/approval-request';
 
     // Notify the host (person to meet) using 'gate_pass_requests' template
     if (visit.personToMeetContact) {
@@ -85,7 +85,8 @@ export const approveVisitStatus = async (req: Request, res: Response) => {
     }
 
     const updated = await updateVisitStatus(id, status, approvedBy);
-    const approvalLink = process.env.FRONTEND_URL || 'http://localhost:5173';
+    const visitorUpdateLink = process.env.FRONTEND_URL || 'https://gate-pass-frontend-theta.vercel.app';
+    const guardCloseGatePassLink = 'https://gate-pass-frontend-theta.vercel.app/close-gate-pass';
     
     // Notify the visitor about the status update using 'gate_pass_updated' template
     if (updated && updated.mobileNumber) {
@@ -106,7 +107,7 @@ export const approveVisitStatus = async (req: Request, res: Response) => {
               { type: 'TEXT', text: String(updated.purposeOfVisit || 'N/A') },
               { type: 'TEXT', text: timeStr },
               { type: 'TEXT', text: displayStatus },
-              { type: 'TEXT', text: approvalLink } // Dynamic Update link
+              { type: 'TEXT', text: visitorUpdateLink } // Dynamic Update link
             ]
           }
         ]
@@ -130,7 +131,7 @@ export const approveVisitStatus = async (req: Request, res: Response) => {
                 { type: 'TEXT', text: String(updated.purposeOfVisit || 'N/A') },
                 { type: 'TEXT', text: updated.timeOfEntry ? new Date(updated.timeOfEntry).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) },
                 { type: 'TEXT', text: 'Approved' },
-                { type: 'TEXT', text: approvalLink }
+                { type: 'TEXT', text: guardCloseGatePassLink }
               ]
             }
           ]
