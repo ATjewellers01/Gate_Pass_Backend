@@ -5,8 +5,8 @@ const auth_service_1 = require("./auth.service");
 const constants_1 = require("../../utils/constants");
 const login = async (req, res) => {
     try {
-        const { userId, password } = req.body;
-        const user = await (0, auth_service_1.loginUser)(userId, password);
+        const { phone, password } = req.body;
+        const user = await (0, auth_service_1.loginUser)(phone, password);
         if (!user) {
             return res.status(401).json({ error: constants_1.ERROR_MESSAGES.INVALID_CREDENTIALS });
         }

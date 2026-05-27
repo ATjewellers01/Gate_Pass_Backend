@@ -4,7 +4,7 @@ exports.loginSchema = void 0;
 const zod_1 = require("zod");
 exports.loginSchema = zod_1.z.object({
     body: zod_1.z.object({
-        userId: zod_1.z.string().min(1, 'Username (userId) is required'),
+        phone: zod_1.z.string().min(1, 'Phone number is required'),
         password: zod_1.z.string().min(1, 'Password is required'),
     }),
 });

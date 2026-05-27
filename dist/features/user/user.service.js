@@ -24,10 +24,9 @@ const createPerson = async (data) => {
     const user = await db_config_1.prisma.user.create({
         data: {
             userName: data.personToMeet,
-            userId: userIdStr,
             password: data.password || "password123", // default password
-            phone: data.phone || "",
-            role: "Employee",
+            phone: data.phone || `000000000${Math.floor(Math.random() * 1000)}`, // phone must be unique and present
+            role: "Staff",
             pageAccess: "ApprovelPage"
         }
     });

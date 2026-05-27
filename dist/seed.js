@@ -4,11 +4,10 @@ const db_config_1 = require("./config/db.config");
 async function main() {
     console.log('Seeding admin user...');
     const admin = await db_config_1.prisma.user.upsert({
-        where: { userId: 'admin' },
+        where: { phone: '1234567890' },
         update: {},
         create: {
             userName: 'Admin User',
-            userId: 'admin',
             password: 'password123',
             role: 'Admin',
             pageAccess: 'All',
@@ -16,11 +15,10 @@ async function main() {
         },
     });
     const guard = await db_config_1.prisma.user.upsert({
-        where: { userId: 'guard' },
+        where: { phone: '0987654321' },
         update: {},
         create: {
             userName: 'Security Guard',
-            userId: 'guard',
             password: 'password123',
             role: 'Guard',
             pageAccess: 'GatePass',

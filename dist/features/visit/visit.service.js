@@ -1,8 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.closeGatePass = exports.updateVisitStatus = exports.getVisits = exports.createVisit = void 0;
+exports.getSecurityGuardContact = exports.closeGatePass = exports.updateVisitStatus = exports.getVisits = exports.createVisit = void 0;
 const db_config_1 = require("../../config/db.config");
+const s3_service_1 = require("../../utils/s3.service");
 const createVisit = async (data) => {
+    let photoUrl = data.visitorPhoto;
+    if (photoUrl && !photoUrl.startsWith('http')) {
+        try {
+            photoUrl = await (0, s3_service_1.uploadBase64ImageToS3)(photoUrl);
+        }
+        catch (error) {
+            console.error('S3 Upload Error:', error);
+            // Fallback: leave it as base64 or you can handle the error based on business logic
+        }
+    }
     return await db_config_1.prisma.visit.create({
         data: {
             visitorName: data.visitorName,
@@ -12,7 +23,7 @@ const createVisit = async (data) => {
             purposeOfVisit: data.purposeOfVisit,
             personToMeet: data.personToMeet,
             personToMeetContact: data.personToMeetContact,
-            visitorPhoto: data.visitorPhoto,
+            visitorPhoto: photoUrl,
             timeOfEntry: (() => {
                 if (!data.timeOfEntry)
                     return new Date();
@@ -96,3 +107,10 @@ const closeGatePass = async (id) => {
     });
 };
 exports.closeGatePass = closeGatePass;
+const getSecurityGuardContact = async () => {
+    const guard = await db_config_1.prisma.user.findFirst({
+        where: { role: 'Guard' }
+    });
+    return guard?.phone || null;
+};
+exports.getSecurityGuardContact = getSecurityGuardContact;

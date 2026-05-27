@@ -4,6 +4,7 @@ exports.TABLE_NAMES = exports.ENV_VARS = exports.SUCCESS_MESSAGES = exports.ERRO
 exports.ROUTE_PREFIXES = {
     AUTH: "/api/auth",
     USERS: "/api/users",
+    SYSTEM_USERS: "/api/system-users",
     VISITS: "/api/visits",
     DATA: "/api/data",
 };
