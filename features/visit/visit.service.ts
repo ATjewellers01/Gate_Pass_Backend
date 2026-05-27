@@ -57,8 +57,9 @@ export const getVisits = async (filters: { personToMeet?: string; gatePassClosed
   const whereClause: any = {};
   
   if (filters.personToMeet && filters.personToMeet.toLowerCase() !== 'admin') {
+    const firstName = filters.personToMeet.split(' ')[0];
     whereClause.personToMeet = {
-      equals: filters.personToMeet,
+      contains: firstName,
       mode: 'insensitive'
     };
   }
