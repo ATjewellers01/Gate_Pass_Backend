@@ -96,7 +96,7 @@ export const approveVisitStatus = async (req: Request, res: Response) => {
 
       sendWhatsAppTemplate(
         updated.mobileNumber,
-        'gate_pass_updated',
+        'gatepass_for_visitor',
         [
           {
             type: 'BODY',
@@ -129,7 +129,8 @@ export const approveVisitStatus = async (req: Request, res: Response) => {
                 { type: 'TEXT', text: String(updated.personToMeet || 'N/A') },
                 { type: 'TEXT', text: String(updated.purposeOfVisit || 'N/A') },
                 { type: 'TEXT', text: updated.timeOfEntry ? new Date(updated.timeOfEntry).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) },
-                { type: 'TEXT', text: 'Approved' }
+                { type: 'TEXT', text: 'Approved' },
+                { type: 'TEXT', text: guardCloseGatePassLink }
               ]
             }
           ]
