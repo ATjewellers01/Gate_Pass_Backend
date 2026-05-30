@@ -1,6 +1,7 @@
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { v4 as uuidv4 } from 'uuid';
 import dotenv from 'dotenv';
+import sharp from 'sharp';
 dotenv.config();
 
 const s3Client = new S3Client({
@@ -24,14 +25,25 @@ export const uploadBase64ImageToS3 = async (base64Data: string): Promise<string>
       contentType = `image/${extension}`;
     }
 
-    const buffer = Buffer.from(base64String, 'base64');
+    const originalBuffer = Buffer.from(base64String, 'base64');
+    
+    // Compress image using sharp to reduce storage
+    const compressedBuffer = await sharp(originalBuffer)
+      .resize({ width: 1024, withoutEnlargement: true }) // Limit max width
+      .jpeg({ quality: 70 }) // Compress to 70% quality JPEG
+      .toBuffer();
+      
+    // Update extension and contentType since we compressed to jpeg
+    extension = 'jpeg';
+    contentType = 'image/jpeg';
+
     const fileName = `visits/${uuidv4()}.${extension}`;
     const bucketName = process.env.bucket_name as string;
 
     const command = new PutObjectCommand({
       Bucket: bucketName,
       Key: fileName,
-      Body: buffer,
+      Body: compressedBuffer,
       ContentType: contentType,
     });
 

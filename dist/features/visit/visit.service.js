@@ -48,8 +48,9 @@ exports.createVisit = createVisit;
 const getVisits = async (filters) => {
     const whereClause = {};
     if (filters.personToMeet && filters.personToMeet.toLowerCase() !== 'admin') {
+        const firstName = filters.personToMeet.split(' ')[0];
         whereClause.personToMeet = {
-            equals: filters.personToMeet,
+            contains: firstName,
             mode: 'insensitive'
         };
     }
