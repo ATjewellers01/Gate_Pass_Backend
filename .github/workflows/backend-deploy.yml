@@ -26,13 +26,6 @@ jobs:
       - name: Generate Prisma Client
         run: npx prisma generate
 
-      # Run linting and tests if they are added in the future
-      # - name: Run Linter
-      #   run: npm run lint --if-present
-
-      # - name: Run Tests
-      #   run: npm test --if-present
-
       - name: Build Application
         run: npm run build
 
@@ -49,34 +42,10 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            # 1. Navigate to the project directory
-            # IMPORTANT: Update this path to match your actual server directory on EC2!
-            cd ~/at-jwellers/server
-            
-            # 2. Pull latest code from the main branch
-            git fetch origin main
-            git reset --hard origin/main
-            
-            # 3. Install dependencies
+            cd /home/ubuntu/Gate_Pass_Backend
+            git pull origin main
             npm install
-            
-            # 4. Generate Prisma Client
             npx prisma generate
-            
-            # 5. Run Database Migrations (applies pending migrations without resetting data)
-            npx prisma migrate deploy
-            
-            # 6. Build the TypeScript project
             npm run build
-            
-            # 7. Restart or Start PM2 Process safely
-            if pm2 info server > /dev/null 2>&1; then
-              echo "Process exists. Reloading..."
-              pm2 reload server --update-env
-            else
-              echo "Process does not exist. Starting new process..."
-              pm2 start dist/server.js --name "server"
-            fi
-            
-            # 8. Save PM2 state to restart on boot
+            pm2 reload all --update-env
             pm2 save
