@@ -33,7 +33,7 @@ app.use(ROUTE_PREFIXES.DATA, dataRoutes);
 app.get("/", (req, res) => {
   res.send("Welcome to AT Jwellers Gate Pass Backend API");
 });
-
+console.log("CI/CD Pipeline Test - June 2026");
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
