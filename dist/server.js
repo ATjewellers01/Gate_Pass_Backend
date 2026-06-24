@@ -29,6 +29,7 @@ app.use(constants_1.ROUTE_PREFIXES.SYSTEM_USERS, system_users_routes_1.default);
 app.use(constants_1.ROUTE_PREFIXES.VISITS, visit_routes_1.default);
 app.use(constants_1.ROUTE_PREFIXES.DATA, data_routes_1.default);
 app.get("/", (req, res) => {
+    console.log("CI/CD Pipeline Test - June 2026");
     res.send("Welcome to AT Jwellers Gate Pass Backend API");
 });
 app.listen(PORT, () => {

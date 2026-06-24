@@ -101,8 +101,8 @@ export const approveVisitStatus = async (req: Request, res: Response) => {
           {
             type: 'BODY',
             parameters: [
-              { type: 'TEXT', text: String(serialNumber) },
               { type: 'TEXT', text: String(updated.visitorName || 'N/A') },
+              { type: 'TEXT', text: String(serialNumber) },
               { type: 'TEXT', text: String(updated.personToMeet || 'N/A') },
               { type: 'TEXT', text: String(updated.purposeOfVisit || 'N/A') },
               { type: 'TEXT', text: timeStr },
